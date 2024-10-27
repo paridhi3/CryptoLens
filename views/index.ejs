@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CryptoLens</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="styles/main.css">
+        <script src='https://cdn.plot.ly/plotly-2.35.2.min.js'></script>
+    </head>
+
+    <body>
+        <h1>CryptoLens</h1>
+
+        <div class="simple">
+            <h2>Get the current prices of one or more coins</h2>
+            <form action="/fetch-price" method="get">
+
+                <label for="idsInput" required>Coin(s):</label>
+                <input type="text" id="idsInput" name="ids" class="form-control" required>
+
+                <label for="currenciesInput" required>Currency(s):</label>
+                <input type="text" id="currenciesInput" name="currencies" class="form-control" required>
+
+                <button type="submit">Get Price</button>
+            </form>
+
+            <div id="current-price-result">
+                <% if (locals.result) { %>
+                    <h2>Price Information</h2>
+                    <table class="table table-success table-striped">
+                        <thead>
+                            <tr>
+                                <th>Cryptocurrency</th>
+                                <th>Prices</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for (const [currency, prices] of Object.entries(result)) { %>
+                                <tr>
+                                    <td>
+                                        <%= currency.charAt(0).toUpperCase() + currency.slice(1) %>
+                                    </td>
+                                    <td>
+                                        <% for (const [currencyCode, price] of Object.entries(prices)) { %>
+                                            <%= currencyCode.toUpperCase() %>: $<%= typeof price==='number' ?
+                                                    price.toFixed(2) : price %><br>
+                                                    <% } %>
+
+                                    </td>
+                                </tr>
+                                <% } %>
+                        </tbody>
+                    </table>
+                    <% } else if (error) { %>
+                        <p>
+                            <%= error %>
+                        </p>
+                        <% } %>
+            </div>
+        </div>
+
+
+        <div class="ohlc">
+            <h2>Get the OHLC chart (Open, High, Low, Close) of a coin up to number of days ago</h2>
+
+            <form action="/ohlc" class="d-flex" method="get">
+
+                <label for="ohlcIdInput" required>Coin:</label>
+                <input type="text" id="ohlcIdInput" name="id" class="form-control" required>
+
+
+                <label for="currencyInput" required>Currency:</label>
+                <input type="text" id="currencyInput" name="currency" class="form-control" required>
+
+                <label for="daysInput" required>Days:</label>
+                <select id="daysInput" name="days" class="form-control w-auto" required>
+                    <option value="1">1</option>
+                    <option value="7">7</option>
+                    <option value="14">14</option>
+                    <option value="30">30</option>
+                    <option value="90">90</option>
+                    <option value="180">180</option>
+                    <option value="365">365</option>
+                </select>
+
+                <button type="submit">Get OHLC</button>
+            </form>
+        </div>
+        
+    </body>
+
+</html>
