@@ -1,0 +1,57 @@
+<%if(locals.result) {%>
+
+    <% const trace = { %>
+    <% x: result.x, %>
+    <% open: result.open, %>
+    <% high: result.high, %>
+    <% low: result.low, %>
+    <% close: result.close, %>
+    <% type: "ohlc", %>
+    <% increasing: { line: { color: "#17BECF" } }, %>
+    <% decreasing: { line: { color: "#7F7F7F" } }, %>
+    <% } %
+
+    <% const layout = { %>
+    <% title: "OHLC Chart", %>
+    <% dragmode: "zoom", %>
+    <% xaxis: { %>
+    <% title: "Date", %>
+    <% type: "date", %>
+    <% }, %>
+    <% yaxis: { %>
+    <% title: "Price", %>
+    <% type: "linear", %>
+    <% }, %>
+    <% } %
+    
+    <% Plotly.newPlot("ohlc-result", [trace], layout) %>
+
+<% } %>
+
+
+
+const trace = {
+    x: result.x,
+    open: result.open,
+    high: result.high,
+    low: result.low,
+    close: result.close,
+    type: "ohlc",
+    increasing: { line: { color: "#17BECF" } },
+    decreasing: { line: { color: "#7F7F7F" } },
+};
+
+const layout = {
+    title: "OHLC Chart",
+    dragmode: "zoom",
+    xaxis: {
+        title: "Date",
+        type: "date",
+    },
+    yaxis: {
+        title: "Price",
+        type: "linear",
+    },
+};
+
+Plotly.newPlot("ohlc-result", [trace], layout);

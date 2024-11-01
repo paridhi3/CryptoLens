@@ -8,47 +8,47 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="styles/main.css">
         <script src='https://cdn.plot.ly/plotly-2.35.2.min.js'></script>
+
+        <!-- <script src="/chart.js" defer></script> -->
+
     </head>
 
     <body>
-        <h1>CryptoLens</h1>
+        <h1>OHLC Chart</h1>
 
-        <div id="ohlc-result"><!-- Plotly chart will be drawn inside this DIV -->
-            <% if (result) { %>
-                <script>
-                        const trace = {
-                            x: result.x, // Dates should now be in ISO format
-                            open: result.open,
-                            high: result.high,
-                            low: result.low,
-                            close: result.close,
-                            type: 'ohlc',
-                            increasing: { line: { color: '#17BECF' } },
-                            decreasing: { line: { color: '#7F7F7F' } },
-                        };
-                
-                        const layout = {
-                            title: 'OHLC Chart',
-                            dragmode: 'zoom',
-                            xaxis: {
-                                title: 'Date',
-                                type: 'date',
-                            },
-                            yaxis: {
-                                title: 'Price',
-                                type: 'linear',
-                            }
-                        };
-                
-                        Plotly.newPlot('ohlc-result', [trace], layout);
-                </script>
-                
-                
-                <% } %>
+        <!-- THE FOLLOWING DOES NOT WORK -->
+        <script>
+            if (locals.result) {
+                let resultInScript = JSON.parse("<%= JSON.stringify(result) %>");
+                const trace = {
+                    x: resultInScript.x,
+                    open: resultInScript.open,
+                    high: resultInScript.high,
+                    low: resultInScript.low,
+                    close: resultInScript.close,
+                    type: "ohlc",
+                    increasing: { line: { color: "#17BECF" } },
+                    decreasing: { line: { color: "#7F7F7F" } },
+                };
 
-        </div>
+                const layout = {
+                    title: "OHLC Chart",
+                    dragmode: "zoom",
+                    xaxis: {
+                        title: "Date",
+                        type: "date",
+                    },
+                    yaxis: {
+                        title: "Price",
+                        type: "linear",
+                    },
+                };
 
+                Plotly.newPlot("ohlc-result", [trace], layout);
+            }
+        </script>
 
+        <div id="ohlc-result-div"><!-- Plotly chart will be drawn inside this DIV --></div>
     </body>
 
 </html>
